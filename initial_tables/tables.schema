@@ -1,0 +1,21 @@
+branch{+branch_name,
+		branch_city,
+		assets};
+
+customer{+customer_name,
+		  customer_street,
+		  customer_city};
+
+loan{+loan_number,
+	 *branch_name,
+	  ammount[numeric(16,2)]};
+
+borrower{+customer_name,
+		 +loan_number};
+
+account{+account_number,
+		*branch_name,
+		 balance[numeric(16,2)]};
+
+depositor{+*customer_name,
+		  +*account_number};
