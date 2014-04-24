@@ -5,10 +5,14 @@ inital_data
 
 .rows 文用于描述内容, 格式形如:
 
-UID | username 
+UID | username
+
 ----+---------
+
   0 | root
+  
   1 | someone
+  
  
 >注: 第二行是可选的, 以双连字符'--'开头的行会被视为注释,
 >这一行是为了让表格看上去更像表格而添加的
