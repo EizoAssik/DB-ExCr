@@ -13,4 +13,4 @@ inital_data
 + 目前支持的数据类型: String, int, float.
 + 对于多数作业来说似乎大概也许可能还是够的...覆盖会慢慢扩充的...
 
-[sample_img]: https://github.com/EizoAssik/DB-ExCr/blob/insmod/initial_data/sample.png
+[sample_img]: https://github.com/EizoAssik/DB-ExCr/raw/insmod/initial_data/sample.png
