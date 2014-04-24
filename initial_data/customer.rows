@@ -1,14 +1,14 @@
 customer_name | customer_street | customer_city
 --------------+-----------------+--------------
-Adams   	  | Spring    		| Pittsfield
-Brooks  	  | Senator   		| Brooklyn
-Curry   	  | North     		| Rye
-Glenn   	  | Sand Hill 		| Woodside
-Green   	  | Walnut    		| Stamford
-Hayes   	  | Main      		| Harrison
-Johnson 	  | Alma      		| Palo Alto
-Jones   	  | Main      		| Harrison
-Lindsay 	  | Park      		| Pittsfield
-Smith   	  | North     		| Rye
-Turner  	  | Putnam    		| Stamford
-Williams	  | Nassau    		| Princeton
+Adams         | Spring          | Pittsfield
+Brooks        | Senator         | Brooklyn
+Curry         | North           | Rye
+Glenn         | Sand Hill       | Woodside
+Green         | Walnut          | Stamford
+Hayes         | Main            | Harrison
+Johnson       | Alma            | Palo Alto
+Jones         | Main            | Harrison
+Lindsay       | Park            | Pittsfield
+Smith         | North           | Rye
+Turner        | Putnam          | Stamford
+Williams      | Nassau          | Princeton
