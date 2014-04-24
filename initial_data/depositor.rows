@@ -1,7 +1,9 @@
-Hayes   | A-102
-Johnson | A-101
-Johnson | A-201
-Jones   | A-217
-Lindsay | A-222
-Smith   | A-215
-Turner  | A-305
+customer_name | account_number
+--------------+---------------
+Hayes  		  | A-102
+Johnson		  | A-101
+Johnson		  | A-201
+Jones  		  | A-217
+Lindsay		  | A-222
+Smith  		  | A-215
+Turner 		  | A-305		  

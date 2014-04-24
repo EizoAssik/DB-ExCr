@@ -1,11 +1,11 @@
 PYTHON = python
 GENERATE_SCRIPT = gen.py
 TARGET = pieces.sql
-TEMPLATE = tables.template
-FOMMATER = 'NF>1 {printf("%s_rows.sql ", $$1)}'
+TEMPLATE = tables.seq
+FOMMATER = '{printf("%s.sql ", $$1)}'
 
 initial_data:
-	$(PYTHON) $(GENERATE_SCRIPT)
+	$(PYTHON) $(GENERATE_SCRIPT) $(TEMPLATE)
 	cat `awk $(FOMMATER) $(TEMPLATE)` >> $(TARGET)
 clean:
 	rm -f *.sql
