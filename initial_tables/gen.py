@@ -8,4 +8,5 @@ from translator import translate
 if __name__ == '__main__':
     p = parse('tables.schema')
     s = translate(p)
-    print(s)
+    with open('tables.sql', 'w') as f:
+        f.writelines(s)

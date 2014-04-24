@@ -8,10 +8,10 @@ customer{+customer_name,
 
 loan{+loan_number,
 	 *branch_name,
-	  ammount[numeric(16,2)]};
+	  amount[numeric(16,2)]};
 
-borrower{+customer_name,
-		 +loan_number};
+borrower{+*customer_name,
+		 +*loan_number};
 
 account{+account_number,
 		*branch_name,

@@ -1,14 +1,16 @@
-PYTHON = python
-GENERATE_SCRIPT = gen.py
+HOME = ..
+
+include $(HOME)/make.def
+
 TARGET = pieces.sql
 TEMPLATE = tables.seq
 FOMMATER = '{printf("%s.sql ", $$1)}'
 
 initial_data:
-	$(PYTHON) $(GENERATE_SCRIPT) $(TEMPLATE)
+	$(PYTHON) $(GENSCRIPT) $(TEMPLATE)
 	cat `awk $(FOMMATER) $(TEMPLATE)` >> $(TARGET)
 clean:
-	rm -f *.sql
+	$(CLEANSQL)
 	
 
 
