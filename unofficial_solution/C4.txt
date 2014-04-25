@@ -1,0 +1,95 @@
+C H A P T E R                          4
+Advanced SQL
+Solutions to Practice Exercises
+ 4.1 Query:
+                     create table loan
+                         (loan number    char(10),
+                          branch name char(15),
+                          amount         integer,
+                          primary key (loan number),
+                          foreign key (branch name) references branch)
+                   create table borrower
+                      (customer name char(20),
+                       loan number     char(10),
+                       primary key (customer name, loan number),
+                       foreign key (customer name) references customer,
+                       foreign key (loan number) references loan)
+     Declaring the pair customer name, loan number of relation borrower as primary key
+     ensures that the relation does not contain duplicates.
+ 4.2 Query:
+                                                                                     11
+12 Chapter 4    Advanced SQL
+                                       create table employee
+                                           (person name char(20),
+                                            street         char(30),
+                                            city           char(30),
+                                            primary key (person name) )
+                           create table works
+                               (person name char(20),
+                                company name char(15),
+                                salary           integer,
+                                primary key (person name),
+                                foreign key (person name) references employee,
+                                foreign key (company name) references company)
+                           create table company
+                               (company name char(15),
+                                city             char(30),
+                                primary key (company name))
+                           ppcreate table manages
+                               (person name char(20),
+                                manager name char(20),
+                                primary key (person name),
+                                foreign key (person name) references employee,
+                                foreign key (manager name) references employee)
+                 Note that alternative datatypes are possible. Other choices for not null at-
+             tributes may be acceptable.
+               a. check condition for the works table:
+                                 check((employee name, company name) in
+                                        (select e.employee name, c.company name
+                                         from employee e, company c
+                                         where e.city = c.city
+                                        )
+                                 )
+              b. check condition for the works table:
+                                                                         Exercises    13
+         check(
+                 salary < all
+                         (select manager salary
+                          from (select manager name, manages.employee name as emp name,
+                                           salary as manager salary
+                                    from works, manages
+                                    where works.employee name = manages.manager name)
+                          where employee name = emp name
+                         )
+         )
+         The solution is slightly complicated because of the fact that inside the se-
+         lect expression’s scope, the outer works relation into which the insertion is
+         being performed is inaccessible. Hence the renaming of the employee name
+         attribute to emp name. Under these circumstances, it is more natural to use
+         assertions.
+4.3 The tuples of all employees of the manager, at all levels, get deleted as well! This
+    happens in a series of steps. The initial deletion will trigger deletion of all the
+    tuples corresponding to direct employees of the manager. These deletions will
+    in turn cause deletions of second level employee tuples, and so on, till all direct
+    and indirect employee tuples are deleted.
+4.4 The assertion name is arbitrary. We have chosen the name perry. Note that since
+    the assertion applies only to the Perryridge branch we must restrict attention to
+    only the Perryridge tuple of the branch relation rather than writing a constraint
+    on the entire relation.
+           create assertion perry check
+               (not exists (select *
+                            from branch
+                            where branch name = ’Perryridge’ and
+                                    assets = (select sum (amount)
+                                              from loan
+                                              where branch name = ’Perryridge’)))
+4.5 Writing queries in SQL is typically much easier than coding the same queries in a
+    general-purpose programming language. However not all kinds of queries can
+    be written in SQL. Also nondeclarative actions such as printing a report, inter-
+    acting with a user, or sending the results of a query to a graphical user interface
+    cannot be done from within SQL. Under circumstances in which we want the
+    best of both worlds, we can choose embedded SQL or dynamic SQL, rather than
+    using SQL alone or using only a general-purpose programming language.
+       Embedded SQL has the advantage of programs being less complicated since it
+    avoids the clutter of the ODBC or JDBC function calls, but requires a specialized
+    preprocessor.

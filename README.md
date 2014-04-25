@@ -19,13 +19,13 @@ DB-ExCr的核心目标是设计实现一个用于高效「生成」「多数高�
 ## 结构 ##
 
 + initial_data
-    用于生成无聊的批量INSERT
+    用于生成无聊的批量INSERT语句
 
 + initial_data
-    用于生成无聊的批量建表
+    用于生成无聊的批量建表语句
 
-+ official_solution
-    历次上级题的答案, 如果你比我还懒...
++ unofficial_solution
+    如果你比我还懒...
 
 ## CHANGE-LOG ##
 

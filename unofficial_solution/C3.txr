@@ -1,0 +1,192 @@
+C H A P T E R                            3
+SQL
+Solutions to Practice Exercises
+ 3.1 Note: The participated relation relates drivers, cars, and accidents.
+      a. Note: this is not the same as the total number of accidents in 1989. We must
+         count people with several accidents only once.
+                select    count (distinct name)
+                from      accident, participated, person
+                where accident.report number = participated.report number
+                and       participated.driver id = person.driver id
+                and       date between date ’1989-00-00’ and date ’1989-12-31’
+      b. We assume the driver was “Jones,” although it could be someone else. Also,
+         we assume “Jones” owns one Toyota. First we must find the license of the
+         given car. Then the participated and accident relations must be updated in or-
+         der to both record the accident and tie it to the given car. We assume values
+         “Berkeley” for location, ’2001-09-01’ for date and date, 4007 for report number
+         and 3000 for damage amount.
+                 insert into accident
+                        values (4007, ’2001-09-01’, ’Berkeley’)
+                 insert into participated
+                        select o.driver id, c.license, 4007, 3000
+                        from person p, owns o, car c
+                        where p.name = ’Jones’ and p.driver id = o.driver id and
+                                o.license = c.license and c.model = ’Toyota’
+      c. Since model is not a key of the car relation, we can either assume that only
+         one of John Smith’s cars is a Mazda, or delete all of John Smith’s Mazdas
+         (the query is the same). Again assume name is a key for person.
+                                                                                       5
+6 Chapter 3  SQL
+                          delete car
+                          where model = ’Mazda’ and license in
+                             (select license
+                              from person p, owns o
+                              where p.name = ’John Smith’ and p.driver id = o.driver id)
+                Note: The owns, accident and participated records associated with the Mazda
+                still exist.
+         3.2 a. Query:
+                             select e.employee name, city
+                             from employee e, works w
+                             where w.company name = ’First Bank Corporation’ and
+                                     w.employee name = e.employee name
+             b. If people may work for several companies, the following solution will only
+                list those who earn more than $10,000 per annum from “First Bank Corpo-
+                ration” alone.
+                   select *
+                   from employee
+                   where employee name in
+                       (select employee name
+                        from works
+                        where company name = ’First Bank Corporation’ and salary ¿ 10000)
+                As in the solution to the previous query, we can use a join to solve this one
+                also.
+             c. The following solution assumes that all people work for exactly one com-
+                pany.
+                                select employee name
+                                from works
+                                where company name = ’First Bank Corporation’
+                    If one allows people to appear in the database (e.g. in employee) but not
+                appear in works, or if people may have jobs with more than one company,
+                the solution is slightly more complicated.
+                              select employee name
+                              from employee
+                              where employee name not in
+                                  (select employee name
+                                   from works
+                                   where company name = ’First Bank Corporation’)
+             d. The following solution assumes that all people work for at most one com-
+                pany.
+                                                                     Exercises 7
+               select employee name
+               from works
+               where salary > all
+                   (select salary
+                    from works
+                    where company name = ’Small Bank Corporation’)
+      If people may work for several companies and we wish to consider the
+   total earnings of each person, the problem is more complex. It can be solved
+   by using a nested subquery, but we illustrate below how to solve it using
+   the with clause.
+           with emp total salary as
+             (select employee name, sum(salary) as total salary
+              from works
+              group by employee name
+             )
+           select employee name
+           from emp total salary
+           where total salary > all
+             (select total salary
+              from emp total salary, works
+              where works.company name = ’Small Bank Corporation’ and
+                      emp total salary.employee name = works.employee name
+             )
+e. The simplest solution uses the contains comparison which was included in
+   the original System R Sequel language but is not present in the subsequent
+   SQL versions.
+            select T.company name
+            from company T
+            where (select R.city
+                     from company R
+                     where R.company name = T.company name)
+                 contains
+                    (select S.city
+                     from company S
+                     where S.company name = ’Small Bank Corporation’)
+   Below is a solution using standard SQL.
+8 Chapter 3  SQL
+                    select S.company name
+                    from company S
+                    where not exists ((select city
+                                        from company
+                                        where company name = ’Small Bank Corporation’)
+                                      except
+                                       (select city
+                                        from company T
+                                        where S.company name = T.company name))
+             f. Query:
+                                select company name
+                                from works
+                                group by company name
+                                having count (distinct employee name) >= all
+                                    (select count (distinct employee name)
+                                     from works
+                                     group by company name)
+             g. Query:
+                  select company name
+                  from works
+                  group by company name
+                  having avg (salary) > (select avg (salary)
+                                           from works
+                                           where company name = ’First Bank Corporation’)
+         3.3 a. The solution assumes that each person has only one tuple in the employee
+                relation.
+                                          update employee
+                                          set city = ’Newton’
+                                          where person name = ’Jones’
+             b. Query:
+                                                                         Exercises 9
+                  update works T
+                  set T.salary = T.salary * 1.03
+                  where T.employee name in (select manager name
+                                                 from manages)
+                           and T.salary * 1.1 > 100000
+                           and T.company name = ’First Bank Corporation’
+                  update works T
+                  set T.salary = T.salary * 1.1
+                  where T.employee name in (select manager name
+                                                 from manages)
+                           and T.salary * 1.1 <= 100000
+                           and T.company name = ’First Bank Corporation’
+           SQL-92 provides a case operation (see Exercise 3.5), using which we give
+        a more concise solution:
+                     update works T
+                     set T.salary = T.salary ∗
+                         (case
+                               when (T.salary ∗ 1.1 > 100000) then 1.03
+                               else 1.1
+                         )
+                     where T.employee name in (select manager name
+                                                   from manages) and
+                             T.company name = ’First Bank Corporation’
+3.4 Query:
+                    select coalesce(a.name, b.name) as name,
+                           coalesce(a.address, b.address) as address,
+                           a.title,
+                           b.salary
+                    from a full outer join b on a.name = b.name and
+                                                   a.address = b.address
+3.5 We use the case operation provided by SQL-92:
+     a. To display the grade for each student:
+                          select student id,
+                                  (case
+                                             when score < 40 then ’F’,
+                                             when score < 60 then ’C’,
+                                             when score < 80 then ’B’,
+                                             else ’A’
+                                  end) as grade
+                          from marks
+10 Chapter 3   SQL
+              b. To find the number of students with each grade we use the following query,
+                  where grades is the result of the query given as the solution to part 0.a.
+                                          select grade, count(student id)
+                                          from grades
+                                          group by grade
+         3.6 The query selects those values of p.a1 that are equal to some value of r1.a1 or
+             r2.a1 if and only if both r1 and r2 are non-empty. If one or both of r1 and r2
+             are empty, the cartesian product of p, r1 and r2 is empty, hence the result of the
+             query is empty. Of course if p itself is empty, the result is as expected, i.e. empty.
+         3.7 To insert the tuple (“Johnson”, 1900) into the view loan info, we can do the fol-
+             lowing:
+             borrower ← (“Johnson”, ⊥k ) ∪ borrower
+                loan ← (⊥k , ⊥, 1900) ∪ loan
+             such that ⊥k is a new marked null not already existing in the database.
