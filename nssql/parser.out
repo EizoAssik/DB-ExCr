@@ -1,0 +1,697 @@
+Created by PLY version 3.4 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> collection
+Rule 1     collection -> exprs
+Rule 2     exprs -> expr
+Rule 3     exprs -> exprs expr
+Rule 4     expr -> sql
+Rule 5     expr -> NAME BIND sql
+Rule 6     sql -> source
+Rule 7     sql -> sql target
+Rule 8     sql -> sql condition
+Rule 9     sql -> sql gathering
+Rule 10    sql -> sql option
+Rule 11    args -> CONTENT
+Rule 12    args -> NAME
+Rule 13    args -> args NAME
+Rule 14    args -> args CONTENT
+Rule 15    args -> args COMMA CONTENT
+Rule 16    args -> args COMMA NAME
+Rule 17    gathering -> LAP args RAP
+Rule 18    source -> SELECTOR args
+Rule 19    source -> SELECTOR LP args RP
+Rule 20    source -> SELECTOR LP sql RP
+Rule 21    condition -> LCP args RCP
+Rule 22    target -> LBP args RBP
+Rule 23    option -> LBP LBP args RBP RBP
+
+Terminals, with rules where they appear
+
+BIND                 : 5
+COMMA                : 15 16
+CONTENT              : 11 14 15
+LAP                  : 17
+LBP                  : 22 23 23
+LCP                  : 21
+LP                   : 19 20
+NAME                 : 5 12 13 16
+RAP                  : 17
+RBP                  : 22 23 23
+RCP                  : 21
+RP                   : 19 20
+SELECTOR             : 18 19 20
+error                : 
+
+Nonterminals, with rules where they appear
+
+args                 : 13 14 15 16 17 18 19 21 22 23
+collection           : 0
+condition            : 8
+expr                 : 2 3
+exprs                : 1 3
+gathering            : 9
+option               : 10
+source               : 6
+sql                  : 4 5 7 8 9 10 20
+target               : 7
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . collection
+    (1) collection -> . exprs
+    (2) exprs -> . expr
+    (3) exprs -> . exprs expr
+    (4) expr -> . sql
+    (5) expr -> . NAME BIND sql
+    (6) sql -> . source
+    (7) sql -> . sql target
+    (8) sql -> . sql condition
+    (9) sql -> . sql gathering
+    (10) sql -> . sql option
+    (18) source -> . SELECTOR args
+    (19) source -> . SELECTOR LP args RP
+    (20) source -> . SELECTOR LP sql RP
+
+    NAME            shift and go to state 7
+    SELECTOR        shift and go to state 6
+
+    source                         shift and go to state 5
+    expr                           shift and go to state 1
+    sql                            shift and go to state 2
+    collection                     shift and go to state 3
+    exprs                          shift and go to state 4
+
+state 1
+
+    (2) exprs -> expr .
+
+    NAME            reduce using rule 2 (exprs -> expr .)
+    SELECTOR        reduce using rule 2 (exprs -> expr .)
+    $end            reduce using rule 2 (exprs -> expr .)
+
+
+state 2
+
+    (4) expr -> sql .
+    (7) sql -> sql . target
+    (8) sql -> sql . condition
+    (9) sql -> sql . gathering
+    (10) sql -> sql . option
+    (22) target -> . LBP args RBP
+    (21) condition -> . LCP args RCP
+    (17) gathering -> . LAP args RAP
+    (23) option -> . LBP LBP args RBP RBP
+
+    NAME            reduce using rule 4 (expr -> sql .)
+    SELECTOR        reduce using rule 4 (expr -> sql .)
+    $end            reduce using rule 4 (expr -> sql .)
+    LBP             shift and go to state 13
+    LCP             shift and go to state 12
+    LAP             shift and go to state 14
+
+    condition                      shift and go to state 8
+    gathering                      shift and go to state 9
+    option                         shift and go to state 10
+    target                         shift and go to state 11
+
+state 3
+
+    (0) S' -> collection .
+
+
+
+state 4
+
+    (1) collection -> exprs .
+    (3) exprs -> exprs . expr
+    (4) expr -> . sql
+    (5) expr -> . NAME BIND sql
+    (6) sql -> . source
+    (7) sql -> . sql target
+    (8) sql -> . sql condition
+    (9) sql -> . sql gathering
+    (10) sql -> . sql option
+    (18) source -> . SELECTOR args
+    (19) source -> . SELECTOR LP args RP
+    (20) source -> . SELECTOR LP sql RP
+
+    $end            reduce using rule 1 (collection -> exprs .)
+    NAME            shift and go to state 7
+    SELECTOR        shift and go to state 6
+
+    source                         shift and go to state 5
+    expr                           shift and go to state 15
+    sql                            shift and go to state 2
+
+state 5
+
+    (6) sql -> source .
+
+    LBP             reduce using rule 6 (sql -> source .)
+    LCP             reduce using rule 6 (sql -> source .)
+    LAP             reduce using rule 6 (sql -> source .)
+    NAME            reduce using rule 6 (sql -> source .)
+    SELECTOR        reduce using rule 6 (sql -> source .)
+    $end            reduce using rule 6 (sql -> source .)
+    RP              reduce using rule 6 (sql -> source .)
+
+
+state 6
+
+    (18) source -> SELECTOR . args
+    (19) source -> SELECTOR . LP args RP
+    (20) source -> SELECTOR . LP sql RP
+    (11) args -> . CONTENT
+    (12) args -> . NAME
+    (13) args -> . args NAME
+    (14) args -> . args CONTENT
+    (15) args -> . args COMMA CONTENT
+    (16) args -> . args COMMA NAME
+
+    LP              shift and go to state 16
+    CONTENT         shift and go to state 18
+    NAME            shift and go to state 17
+
+    args                           shift and go to state 19
+
+state 7
+
+    (5) expr -> NAME . BIND sql
+
+    BIND            shift and go to state 20
+
+
+state 8
+
+    (8) sql -> sql condition .
+
+    LBP             reduce using rule 8 (sql -> sql condition .)
+    LCP             reduce using rule 8 (sql -> sql condition .)
+    LAP             reduce using rule 8 (sql -> sql condition .)
+    NAME            reduce using rule 8 (sql -> sql condition .)
+    SELECTOR        reduce using rule 8 (sql -> sql condition .)
+    $end            reduce using rule 8 (sql -> sql condition .)
+    RP              reduce using rule 8 (sql -> sql condition .)
+
+
+state 9
+
+    (9) sql -> sql gathering .
+
+    LBP             reduce using rule 9 (sql -> sql gathering .)
+    LCP             reduce using rule 9 (sql -> sql gathering .)
+    LAP             reduce using rule 9 (sql -> sql gathering .)
+    NAME            reduce using rule 9 (sql -> sql gathering .)
+    SELECTOR        reduce using rule 9 (sql -> sql gathering .)
+    $end            reduce using rule 9 (sql -> sql gathering .)
+    RP              reduce using rule 9 (sql -> sql gathering .)
+
+
+state 10
+
+    (10) sql -> sql option .
+
+    LBP             reduce using rule 10 (sql -> sql option .)
+    LCP             reduce using rule 10 (sql -> sql option .)
+    LAP             reduce using rule 10 (sql -> sql option .)
+    NAME            reduce using rule 10 (sql -> sql option .)
+    SELECTOR        reduce using rule 10 (sql -> sql option .)
+    $end            reduce using rule 10 (sql -> sql option .)
+    RP              reduce using rule 10 (sql -> sql option .)
+
+
+state 11
+
+    (7) sql -> sql target .
+
+    LBP             reduce using rule 7 (sql -> sql target .)
+    LCP             reduce using rule 7 (sql -> sql target .)
+    LAP             reduce using rule 7 (sql -> sql target .)
+    NAME            reduce using rule 7 (sql -> sql target .)
+    SELECTOR        reduce using rule 7 (sql -> sql target .)
+    $end            reduce using rule 7 (sql -> sql target .)
+    RP              reduce using rule 7 (sql -> sql target .)
+
+
+state 12
+
+    (21) condition -> LCP . args RCP
+    (11) args -> . CONTENT
+    (12) args -> . NAME
+    (13) args -> . args NAME
+    (14) args -> . args CONTENT
+    (15) args -> . args COMMA CONTENT
+    (16) args -> . args COMMA NAME
+
+    CONTENT         shift and go to state 18
+    NAME            shift and go to state 17
+
+    args                           shift and go to state 21
+
+state 13
+
+    (22) target -> LBP . args RBP
+    (23) option -> LBP . LBP args RBP RBP
+    (11) args -> . CONTENT
+    (12) args -> . NAME
+    (13) args -> . args NAME
+    (14) args -> . args CONTENT
+    (15) args -> . args COMMA CONTENT
+    (16) args -> . args COMMA NAME
+
+    LBP             shift and go to state 22
+    CONTENT         shift and go to state 18
+    NAME            shift and go to state 17
+
+    args                           shift and go to state 23
+
+state 14
+
+    (17) gathering -> LAP . args RAP
+    (11) args -> . CONTENT
+    (12) args -> . NAME
+    (13) args -> . args NAME
+    (14) args -> . args CONTENT
+    (15) args -> . args COMMA CONTENT
+    (16) args -> . args COMMA NAME
+
+    CONTENT         shift and go to state 18
+    NAME            shift and go to state 17
+
+    args                           shift and go to state 24
+
+state 15
+
+    (3) exprs -> exprs expr .
+
+    NAME            reduce using rule 3 (exprs -> exprs expr .)
+    SELECTOR        reduce using rule 3 (exprs -> exprs expr .)
+    $end            reduce using rule 3 (exprs -> exprs expr .)
+
+
+state 16
+
+    (19) source -> SELECTOR LP . args RP
+    (20) source -> SELECTOR LP . sql RP
+    (11) args -> . CONTENT
+    (12) args -> . NAME
+    (13) args -> . args NAME
+    (14) args -> . args CONTENT
+    (15) args -> . args COMMA CONTENT
+    (16) args -> . args COMMA NAME
+    (6) sql -> . source
+    (7) sql -> . sql target
+    (8) sql -> . sql condition
+    (9) sql -> . sql gathering
+    (10) sql -> . sql option
+    (18) source -> . SELECTOR args
+    (19) source -> . SELECTOR LP args RP
+    (20) source -> . SELECTOR LP sql RP
+
+    CONTENT         shift and go to state 18
+    NAME            shift and go to state 17
+    SELECTOR        shift and go to state 6
+
+    source                         shift and go to state 5
+    sql                            shift and go to state 25
+    args                           shift and go to state 26
+
+state 17
+
+    (12) args -> NAME .
+
+    RCP             reduce using rule 12 (args -> NAME .)
+    NAME            reduce using rule 12 (args -> NAME .)
+    CONTENT         reduce using rule 12 (args -> NAME .)
+    COMMA           reduce using rule 12 (args -> NAME .)
+    RBP             reduce using rule 12 (args -> NAME .)
+    RAP             reduce using rule 12 (args -> NAME .)
+    RP              reduce using rule 12 (args -> NAME .)
+    LBP             reduce using rule 12 (args -> NAME .)
+    LCP             reduce using rule 12 (args -> NAME .)
+    LAP             reduce using rule 12 (args -> NAME .)
+    SELECTOR        reduce using rule 12 (args -> NAME .)
+    $end            reduce using rule 12 (args -> NAME .)
+
+
+state 18
+
+    (11) args -> CONTENT .
+
+    RCP             reduce using rule 11 (args -> CONTENT .)
+    NAME            reduce using rule 11 (args -> CONTENT .)
+    CONTENT         reduce using rule 11 (args -> CONTENT .)
+    COMMA           reduce using rule 11 (args -> CONTENT .)
+    RBP             reduce using rule 11 (args -> CONTENT .)
+    RAP             reduce using rule 11 (args -> CONTENT .)
+    RP              reduce using rule 11 (args -> CONTENT .)
+    LBP             reduce using rule 11 (args -> CONTENT .)
+    LCP             reduce using rule 11 (args -> CONTENT .)
+    LAP             reduce using rule 11 (args -> CONTENT .)
+    SELECTOR        reduce using rule 11 (args -> CONTENT .)
+    $end            reduce using rule 11 (args -> CONTENT .)
+
+
+state 19
+
+    (18) source -> SELECTOR args .
+    (13) args -> args . NAME
+    (14) args -> args . CONTENT
+    (15) args -> args . COMMA CONTENT
+    (16) args -> args . COMMA NAME
+
+  ! shift/reduce conflict for NAME resolved as shift
+    RP              reduce using rule 18 (source -> SELECTOR args .)
+    LBP             reduce using rule 18 (source -> SELECTOR args .)
+    LCP             reduce using rule 18 (source -> SELECTOR args .)
+    LAP             reduce using rule 18 (source -> SELECTOR args .)
+    SELECTOR        reduce using rule 18 (source -> SELECTOR args .)
+    $end            reduce using rule 18 (source -> SELECTOR args .)
+    NAME            shift and go to state 27
+    CONTENT         shift and go to state 29
+    COMMA           shift and go to state 28
+
+  ! NAME            [ reduce using rule 18 (source -> SELECTOR args .) ]
+
+
+state 20
+
+    (5) expr -> NAME BIND . sql
+    (6) sql -> . source
+    (7) sql -> . sql target
+    (8) sql -> . sql condition
+    (9) sql -> . sql gathering
+    (10) sql -> . sql option
+    (18) source -> . SELECTOR args
+    (19) source -> . SELECTOR LP args RP
+    (20) source -> . SELECTOR LP sql RP
+
+    SELECTOR        shift and go to state 6
+
+    source                         shift and go to state 5
+    sql                            shift and go to state 30
+
+state 21
+
+    (21) condition -> LCP args . RCP
+    (13) args -> args . NAME
+    (14) args -> args . CONTENT
+    (15) args -> args . COMMA CONTENT
+    (16) args -> args . COMMA NAME
+
+    RCP             shift and go to state 31
+    NAME            shift and go to state 27
+    CONTENT         shift and go to state 29
+    COMMA           shift and go to state 28
+
+
+state 22
+
+    (23) option -> LBP LBP . args RBP RBP
+    (11) args -> . CONTENT
+    (12) args -> . NAME
+    (13) args -> . args NAME
+    (14) args -> . args CONTENT
+    (15) args -> . args COMMA CONTENT
+    (16) args -> . args COMMA NAME
+
+    CONTENT         shift and go to state 18
+    NAME            shift and go to state 17
+
+    args                           shift and go to state 32
+
+state 23
+
+    (22) target -> LBP args . RBP
+    (13) args -> args . NAME
+    (14) args -> args . CONTENT
+    (15) args -> args . COMMA CONTENT
+    (16) args -> args . COMMA NAME
+
+    RBP             shift and go to state 33
+    NAME            shift and go to state 27
+    CONTENT         shift and go to state 29
+    COMMA           shift and go to state 28
+
+
+state 24
+
+    (17) gathering -> LAP args . RAP
+    (13) args -> args . NAME
+    (14) args -> args . CONTENT
+    (15) args -> args . COMMA CONTENT
+    (16) args -> args . COMMA NAME
+
+    RAP             shift and go to state 34
+    NAME            shift and go to state 27
+    CONTENT         shift and go to state 29
+    COMMA           shift and go to state 28
+
+
+state 25
+
+    (20) source -> SELECTOR LP sql . RP
+    (7) sql -> sql . target
+    (8) sql -> sql . condition
+    (9) sql -> sql . gathering
+    (10) sql -> sql . option
+    (22) target -> . LBP args RBP
+    (21) condition -> . LCP args RCP
+    (17) gathering -> . LAP args RAP
+    (23) option -> . LBP LBP args RBP RBP
+
+    RP              shift and go to state 35
+    LBP             shift and go to state 13
+    LCP             shift and go to state 12
+    LAP             shift and go to state 14
+
+    condition                      shift and go to state 8
+    gathering                      shift and go to state 9
+    option                         shift and go to state 10
+    target                         shift and go to state 11
+
+state 26
+
+    (19) source -> SELECTOR LP args . RP
+    (13) args -> args . NAME
+    (14) args -> args . CONTENT
+    (15) args -> args . COMMA CONTENT
+    (16) args -> args . COMMA NAME
+
+    RP              shift and go to state 36
+    NAME            shift and go to state 27
+    CONTENT         shift and go to state 29
+    COMMA           shift and go to state 28
+
+
+state 27
+
+    (13) args -> args NAME .
+
+    RCP             reduce using rule 13 (args -> args NAME .)
+    NAME            reduce using rule 13 (args -> args NAME .)
+    CONTENT         reduce using rule 13 (args -> args NAME .)
+    COMMA           reduce using rule 13 (args -> args NAME .)
+    RBP             reduce using rule 13 (args -> args NAME .)
+    RAP             reduce using rule 13 (args -> args NAME .)
+    RP              reduce using rule 13 (args -> args NAME .)
+    LBP             reduce using rule 13 (args -> args NAME .)
+    LCP             reduce using rule 13 (args -> args NAME .)
+    LAP             reduce using rule 13 (args -> args NAME .)
+    SELECTOR        reduce using rule 13 (args -> args NAME .)
+    $end            reduce using rule 13 (args -> args NAME .)
+
+
+state 28
+
+    (15) args -> args COMMA . CONTENT
+    (16) args -> args COMMA . NAME
+
+    CONTENT         shift and go to state 38
+    NAME            shift and go to state 37
+
+
+state 29
+
+    (14) args -> args CONTENT .
+
+    RCP             reduce using rule 14 (args -> args CONTENT .)
+    NAME            reduce using rule 14 (args -> args CONTENT .)
+    CONTENT         reduce using rule 14 (args -> args CONTENT .)
+    COMMA           reduce using rule 14 (args -> args CONTENT .)
+    RBP             reduce using rule 14 (args -> args CONTENT .)
+    RAP             reduce using rule 14 (args -> args CONTENT .)
+    RP              reduce using rule 14 (args -> args CONTENT .)
+    LBP             reduce using rule 14 (args -> args CONTENT .)
+    LCP             reduce using rule 14 (args -> args CONTENT .)
+    LAP             reduce using rule 14 (args -> args CONTENT .)
+    SELECTOR        reduce using rule 14 (args -> args CONTENT .)
+    $end            reduce using rule 14 (args -> args CONTENT .)
+
+
+state 30
+
+    (5) expr -> NAME BIND sql .
+    (7) sql -> sql . target
+    (8) sql -> sql . condition
+    (9) sql -> sql . gathering
+    (10) sql -> sql . option
+    (22) target -> . LBP args RBP
+    (21) condition -> . LCP args RCP
+    (17) gathering -> . LAP args RAP
+    (23) option -> . LBP LBP args RBP RBP
+
+    NAME            reduce using rule 5 (expr -> NAME BIND sql .)
+    SELECTOR        reduce using rule 5 (expr -> NAME BIND sql .)
+    $end            reduce using rule 5 (expr -> NAME BIND sql .)
+    LBP             shift and go to state 13
+    LCP             shift and go to state 12
+    LAP             shift and go to state 14
+
+    condition                      shift and go to state 8
+    gathering                      shift and go to state 9
+    option                         shift and go to state 10
+    target                         shift and go to state 11
+
+state 31
+
+    (21) condition -> LCP args RCP .
+
+    LBP             reduce using rule 21 (condition -> LCP args RCP .)
+    LCP             reduce using rule 21 (condition -> LCP args RCP .)
+    LAP             reduce using rule 21 (condition -> LCP args RCP .)
+    NAME            reduce using rule 21 (condition -> LCP args RCP .)
+    SELECTOR        reduce using rule 21 (condition -> LCP args RCP .)
+    $end            reduce using rule 21 (condition -> LCP args RCP .)
+    RP              reduce using rule 21 (condition -> LCP args RCP .)
+
+
+state 32
+
+    (23) option -> LBP LBP args . RBP RBP
+    (13) args -> args . NAME
+    (14) args -> args . CONTENT
+    (15) args -> args . COMMA CONTENT
+    (16) args -> args . COMMA NAME
+
+    RBP             shift and go to state 39
+    NAME            shift and go to state 27
+    CONTENT         shift and go to state 29
+    COMMA           shift and go to state 28
+
+
+state 33
+
+    (22) target -> LBP args RBP .
+
+    LBP             reduce using rule 22 (target -> LBP args RBP .)
+    LCP             reduce using rule 22 (target -> LBP args RBP .)
+    LAP             reduce using rule 22 (target -> LBP args RBP .)
+    NAME            reduce using rule 22 (target -> LBP args RBP .)
+    SELECTOR        reduce using rule 22 (target -> LBP args RBP .)
+    $end            reduce using rule 22 (target -> LBP args RBP .)
+    RP              reduce using rule 22 (target -> LBP args RBP .)
+
+
+state 34
+
+    (17) gathering -> LAP args RAP .
+
+    LBP             reduce using rule 17 (gathering -> LAP args RAP .)
+    LCP             reduce using rule 17 (gathering -> LAP args RAP .)
+    LAP             reduce using rule 17 (gathering -> LAP args RAP .)
+    NAME            reduce using rule 17 (gathering -> LAP args RAP .)
+    SELECTOR        reduce using rule 17 (gathering -> LAP args RAP .)
+    $end            reduce using rule 17 (gathering -> LAP args RAP .)
+    RP              reduce using rule 17 (gathering -> LAP args RAP .)
+
+
+state 35
+
+    (20) source -> SELECTOR LP sql RP .
+
+    RP              reduce using rule 20 (source -> SELECTOR LP sql RP .)
+    LBP             reduce using rule 20 (source -> SELECTOR LP sql RP .)
+    LCP             reduce using rule 20 (source -> SELECTOR LP sql RP .)
+    LAP             reduce using rule 20 (source -> SELECTOR LP sql RP .)
+    NAME            reduce using rule 20 (source -> SELECTOR LP sql RP .)
+    SELECTOR        reduce using rule 20 (source -> SELECTOR LP sql RP .)
+    $end            reduce using rule 20 (source -> SELECTOR LP sql RP .)
+
+
+state 36
+
+    (19) source -> SELECTOR LP args RP .
+
+    RP              reduce using rule 19 (source -> SELECTOR LP args RP .)
+    LBP             reduce using rule 19 (source -> SELECTOR LP args RP .)
+    LCP             reduce using rule 19 (source -> SELECTOR LP args RP .)
+    LAP             reduce using rule 19 (source -> SELECTOR LP args RP .)
+    NAME            reduce using rule 19 (source -> SELECTOR LP args RP .)
+    SELECTOR        reduce using rule 19 (source -> SELECTOR LP args RP .)
+    $end            reduce using rule 19 (source -> SELECTOR LP args RP .)
+
+
+state 37
+
+    (16) args -> args COMMA NAME .
+
+    RCP             reduce using rule 16 (args -> args COMMA NAME .)
+    NAME            reduce using rule 16 (args -> args COMMA NAME .)
+    CONTENT         reduce using rule 16 (args -> args COMMA NAME .)
+    COMMA           reduce using rule 16 (args -> args COMMA NAME .)
+    RBP             reduce using rule 16 (args -> args COMMA NAME .)
+    RAP             reduce using rule 16 (args -> args COMMA NAME .)
+    RP              reduce using rule 16 (args -> args COMMA NAME .)
+    LBP             reduce using rule 16 (args -> args COMMA NAME .)
+    LCP             reduce using rule 16 (args -> args COMMA NAME .)
+    LAP             reduce using rule 16 (args -> args COMMA NAME .)
+    SELECTOR        reduce using rule 16 (args -> args COMMA NAME .)
+    $end            reduce using rule 16 (args -> args COMMA NAME .)
+
+
+state 38
+
+    (15) args -> args COMMA CONTENT .
+
+    RCP             reduce using rule 15 (args -> args COMMA CONTENT .)
+    NAME            reduce using rule 15 (args -> args COMMA CONTENT .)
+    CONTENT         reduce using rule 15 (args -> args COMMA CONTENT .)
+    COMMA           reduce using rule 15 (args -> args COMMA CONTENT .)
+    RBP             reduce using rule 15 (args -> args COMMA CONTENT .)
+    RAP             reduce using rule 15 (args -> args COMMA CONTENT .)
+    RP              reduce using rule 15 (args -> args COMMA CONTENT .)
+    LBP             reduce using rule 15 (args -> args COMMA CONTENT .)
+    LCP             reduce using rule 15 (args -> args COMMA CONTENT .)
+    LAP             reduce using rule 15 (args -> args COMMA CONTENT .)
+    SELECTOR        reduce using rule 15 (args -> args COMMA CONTENT .)
+    $end            reduce using rule 15 (args -> args COMMA CONTENT .)
+
+
+state 39
+
+    (23) option -> LBP LBP args RBP . RBP
+
+    RBP             shift and go to state 40
+
+
+state 40
+
+    (23) option -> LBP LBP args RBP RBP .
+
+    LBP             reduce using rule 23 (option -> LBP LBP args RBP RBP .)
+    LCP             reduce using rule 23 (option -> LBP LBP args RBP RBP .)
+    LAP             reduce using rule 23 (option -> LBP LBP args RBP RBP .)
+    NAME            reduce using rule 23 (option -> LBP LBP args RBP RBP .)
+    SELECTOR        reduce using rule 23 (option -> LBP LBP args RBP RBP .)
+    $end            reduce using rule 23 (option -> LBP LBP args RBP RBP .)
+    RP              reduce using rule 23 (option -> LBP LBP args RBP RBP .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for NAME in state 19 resolved as shift

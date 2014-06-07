@@ -4,10 +4,13 @@ from rply.token import BaseBox
 
 NAME = 0
 REF = 1
+QUERY = 2
 
 
 class Clause(BaseBox):
     def __init__(self, value):
+        self.parent = None
+        self.root = None
         self.value = value
 
     def eval(self):
@@ -31,7 +34,7 @@ class Empty(Clause):
 _empty = Empty(None)
 
 
-class Expr(BaseBox):
+class Args(BaseBox):
     def __init__(self, elem):
         self.value = [elem]
 
@@ -47,19 +50,23 @@ class Expr(BaseBox):
 
 
 class Source(Clause):
-    def __init__(self, t, value: Expr):
+    def __init__(self, t, value: Args):
         super().__init__(value)
         self.type = t
 
     def eval(self):
         if self.type is REF:
-            return '({}) as {}'.format(self.value.eval(), 'REF-NAME')
+            symbol = self.value.eval()
+            return '({}) as {}'.format(self.parent.root.symbols[symbol].eval(),
+                                       symbol)
         elif self.type is NAME:
             return self.value.eval(split_with_comma=True)
+        elif self.type is QUERY:
+            return self.value.eval()
 
 
 class Target(Clause):
-    def __init__(self, value: Expr):
+    def __init__(self, value: Args):
         super().__init__(value)
 
     def eval(self):
@@ -67,7 +74,7 @@ class Target(Clause):
 
 
 class Condition(Clause):
-    def __init__(self, value: Expr):
+    def __init__(self, value: Args):
         super().__init__(value)
 
     def eval(self):
@@ -75,7 +82,7 @@ class Condition(Clause):
 
 
 class Gathering(Clause):
-    def __init__(self, value: Expr):
+    def __init__(self, value: Args):
         super().__init__(value)
 
     def eval(self):
@@ -85,7 +92,7 @@ class Gathering(Clause):
 
 
 class Option(Clause):
-    def __init__(self, value: Expr):
+    def __init__(self, value: Args):
         super().__init__(value)
 
     def eval(self):
@@ -100,9 +107,30 @@ class SQL(Clause):
         self.source = _empty
         self.target = _empty
         self.option = _empty
+        self.bind_name = None
+
+    def set_source(self, source):
+        source.parent = self
+        self.source = source
+
+    def set_target(self, target):
+        target.parent = self
+        self.target = target
+
+    def set_cond(self, cond):
+        cond.parent = self
+        self.condition = cond
+
+    def set_gathering(self, ga):
+        ga.parent = self
+        self.gathering = ga
+
+    def set_option(self, op):
+        op.parent = self
+        self.option = op
 
     def eval(self):
-        template = "SELECT{target} FROM{source}{gather}{condition}{option};"
+        template = "SELECT{target} FROM{source}{gather}{condition}{option}"
         tn = self.source.eval()
         sql_args = {
             'target': (self.target.eval(), ' *'),
@@ -120,3 +148,17 @@ class SQL(Clause):
         expr = template.format(**sql_args)
         expr = expr.replace('@', tn)
         return expr
+
+
+class Collection(object):
+    def __init__(self, elements: list):
+        self.elements = elements
+        self.symbols = {}
+        for elem in self.elements:
+            if elem.bind_name:
+                self.symbols[elem.bind_name] = elem
+            elem.root = self
+
+    def dumps(self):
+        src = filter(lambda x: not x.bind_name, self.elements)
+        return list(map(str, src))
