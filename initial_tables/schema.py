@@ -16,6 +16,8 @@ t_LCP = r'\{'
 t_RCP = r'\}'
 t_COMMA = r','
 t_ignore = ' \n\r\tS;'
+def t_error(t):
+    print('Lexing Err @', t)
 
 
 # CREATE IF NOT EXISTS ...
